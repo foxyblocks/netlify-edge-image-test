@@ -2,10 +2,10 @@ import React from 'https://esm.sh/react@18.2.0';
 import { ImageResponse } from 'https://deno.land/x/og_edge/mod.ts';
 import type { Config } from 'https://edge.netlify.com';
 
-const BASE_URL = Netlify.env.URL || 'http://localhost:3000';
-const imgPromise = fetch(`${BASE_URL}/img.png`).then((file) => file.arrayBuffer());
 export default async function handler(req: Request) {
-  const img = await imgPromise;
+  // const BASE_URL = Netlify.env.get('URL');
+  // get base path for images from request
+  const basePath = req.url.replace(/\/og\/?$/, '');
 
   return new ImageResponse(
     (
@@ -21,8 +21,8 @@ export default async function handler(req: Request) {
           background: 'lavender',
         }}
       >
-        <img src={img}></img>
-        <div style={{ fontSize: 10 }}>Hello! URL: {BASE_URL}</div>
+        {/* <img src={`${basePath}/img.png`}></img> */}
+        <div style={{ fontSize: 10 }}>Hello!</div>
       </div>
     ),
   );
