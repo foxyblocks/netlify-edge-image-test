@@ -34,18 +34,16 @@ export default async function handler(req: Request) {
 
   const bufferSize = size(50);
 
+  const BASE_URL = new URL(req.url).origin;
+
   // Make sure the font exists in the specified path:
-  const logoImg = fetch(
-    new URL('https://opensauced-edge-functions-9qm3ck0ip-foxyblockscom.vercel.app/logo.png'),
-  ).then((res) => res.arrayBuffer());
-  const interSemiBoldFont = fetch(
-    new URL(
-      'https://opensauced-edge-functions-9qm3ck0ip-foxyblockscom.vercel.app/Inter-SemiBold.ttf',
-    ),
-  ).then((res) => res.arrayBuffer());
-  const interBlackFont = fetch(
-    new URL('https://opensauced-edge-functions-9qm3ck0ip-foxyblockscom.vercel.app/Inter-Black.ttf'),
-  ).then((res) => res.arrayBuffer());
+  const logoImg = fetch(new URL('/logo.png', BASE_URL)).then((res) => res.arrayBuffer());
+  const interSemiBoldFont = fetch(new URL('/Inter-SemiBold.ttf', BASE_URL)).then((res) =>
+    res.arrayBuffer(),
+  );
+  const interBlackFont = fetch(new URL('/Inter-Black.ttf', BASE_URL)).then((res) =>
+    res.arrayBuffer(),
+  );
 
   const [interSemiBoldFontData, interBlackFontData, logoImgData, prReq] = await Promise.all([
     interSemiBoldFont,
