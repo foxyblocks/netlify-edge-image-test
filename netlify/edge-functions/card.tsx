@@ -11,7 +11,7 @@ const DEFAULT_WIDTH = 735;
 const MAX_WIDTH = 1960;
 
 export const config: Config = {
-  path: '/card',
+  path: '/api/card',
 };
 
 export default async function handler(req: Request) {
@@ -34,16 +34,17 @@ export default async function handler(req: Request) {
 
   const bufferSize = size(50);
 
-  const BASE_URL = new URL(req.url).origin;
+  // @ts-ignore
+  const BASE_URL = Deno.env.get('URL') ?? `http://localhost:3000/`;
 
-  // Make sure the font exists in the specified path:
-  const logoImg = fetch(new URL('/logo.png', BASE_URL)).then((res) => res.arrayBuffer());
-  const interSemiBoldFont = fetch(new URL('/Inter-SemiBold.ttf', BASE_URL)).then((res) =>
-    res.arrayBuffer(),
-  );
-  const interBlackFont = fetch(new URL('/Inter-Black.ttf', BASE_URL)).then((res) =>
-    res.arrayBuffer(),
-  );
+  function getLocalAsset(path: string): Promise<ArrayBuffer> {
+    return fetch(new URL(`/assets/card/${path}`, BASE_URL)).then((res) => res.arrayBuffer());
+  }
+
+  // // Make sure the font exists in the specified path:
+  const logoImg = getLocalAsset('/logo.png');
+  const interSemiBoldFont = getLocalAsset('/Inter-SemiBold.ttf');
+  const interBlackFont = getLocalAsset('/Inter-Black.ttf');
 
   const [interSemiBoldFontData, interBlackFontData, logoImgData, prReq] = await Promise.all([
     interSemiBoldFont,
