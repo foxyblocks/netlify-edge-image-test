@@ -1,6 +1,7 @@
 [build]
 command = "next build"
 publish = ".next"
+NEXT_USE_NETLIFY_EDGE = "true"
 
 [dev]
 command = "next dev"
