@@ -2,5 +2,15 @@
 command = "npm run prebuild && npm run build"
 publish = ".next"
 
+
+[build.environment]
+NODE_VERSION = "16"
+
+[context.alpha]
+environment = { CHANNEL = "alpha" }
+
+[context.beta]
+environment = { CHANNEL = "beta" }
+
 [dev]
 command = "next dev"
